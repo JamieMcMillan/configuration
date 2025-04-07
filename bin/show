@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3.11
+#!/Users/jamiemcmillan/Library/Caches/pypoetry/virtualenvs/image-processing-7EkzBI9D-py3.12/bin/python
 
 import warnings
 import argparse
@@ -12,6 +12,7 @@ from typing import Optional
 
 class Show():
     input_filepath: str
+    fliplr: bool
     output_filepath: Optional[str] = None
 
     def parse_arguments(self):
@@ -19,6 +20,11 @@ class Show():
 
         parser.add_argument(
             'input'
+        )
+        parser.add_argument(
+            "--fliplr",
+            action="store_true",
+            help="Apply horizontal flip to the source image",
         )
         parser.add_argument(
             "-o",
@@ -30,6 +36,7 @@ class Show():
 
         args = parser.parse_args()
         self.input_filepath = args.input
+        self.fliplr = args.fliplr
         if args.output:
             self.output_filepath = args.output[0]
 
@@ -62,6 +69,8 @@ def main() -> None:
     show.parse_arguments()
     
     d = show.image_to_8_bit(rio.open(show.input_filepath).read(1, masked=True))
+    if show.fliplr:
+        d = np.fliplr(d)
     im = Image.fromarray(d)
     im.show()
 

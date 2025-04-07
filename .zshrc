@@ -88,6 +88,7 @@ else
   export EDITOR='vim'
 fi
 
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -100,8 +101,11 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cat='bat --theme=OneHalfDark'
-alias launchEC2="aws ssm start-session --profile qa --target i-035997a8f22416123 --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
+alias launchOldEC2="aws ssm start-session --profile qa --target i-035997a8f22416123 --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
+alias launchEC2="aws ssm start-session --profile qa --target i-05864a83e260c5a4d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
 alias plot='gnuplot plot.gnu'
+alias prp='poetry run pytest'
+alias pri='poetry run ipython'
 
 # Add brew paths
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -121,3 +125,15 @@ export AWS_DEFAULT_PROFILE=qa
 # Poetry install bin
 export PATH="/Users/jamiemcmillan/.local/bin:$PATH"
 
+source $HOME/.profile
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+# Adding temporary ASP
+export PATH="$PATH:/Users/jamiemcmillan/Documents/Development/StereoPipeline-3.5.0-alpha-2024-10-06-x86_64-OSX/bin"
+export AMES_DIR="/Users/jamiemcmillan/Documents/Development/StereoPipeline-3.5.0-alpha-2024-10-06-x86_64-OSX/bin"
+
+# GDAL speed up
+export GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR
+
+# Set FFMPEG EXE
+export IMAGEIO_FFMPEG_EXE=/opt/homebrew/bin/ffmpeg

@@ -1,0 +1,7 @@
+#!/Users/jamiemcmillan/Library/Caches/pypoetry/virtualenvs/image-processing-7EkzBI9D-py3.12/bin/python
+from datetime import datetime
+from radiative_transfer_modelling.profile import atmospheric_profile_arco
+
+timestamp = datetime(2023,1,1)
+profile = atmospheric_profile_arco(50.000001, 10.999999993, timestamp)
+print(profile.attrs)

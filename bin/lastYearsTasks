@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CURRENT_DIRECTORY="$(pwd)"
+ACTIONS_DIRECTORY="$HOME/Documents/Development/personalNotesJamieMcMillan/Actions/"
+ACTIONS_FILE="Actions For Today.md"
+OUTPUT_FILE="${CURRENT_DIRECTORY}/actions_from_last_year.txt"
+
+cd ${ACTIONS_DIRECTORY}
+git log --since="1 year ago" -p "${ACTIONS_FILE}" | sed -e '/^-/!d;/Actions\/Actions/d;s/^[-]*//g;s/^[[[:space:]]]*//g;s/^[-]*//g;s/^[[[:space:]]]*//g;/^$/d;s/\(.*\)/- \1/g' | tee "${OUTPUT_FILE}"
+

@@ -101,11 +101,16 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cat='bat --theme=OneHalfDark'
-alias launchOldEC2="aws ssm start-session --profile qa --target i-035997a8f22416123 --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
-alias launchEC2="aws ssm start-session --profile qa --target i-05864a83e260c5a4d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
+alias launchEC2="aws ssm start-session --profile default --target i-05864a83e260c5a4d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2223\"]}' --region eu-west-2"
+alias launchMODTRAN="aws ssm start-session --profile default --target i-0b5759edad60b1e9d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
+alias launchQADatabase="AWS_PROFILE=\"default\" aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imageprocessingpipeline-databaseinstanceaa8a5fde-mc7mhgpczgaj.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
+alias launchProdDatabase="AWS_PROFILE=\"prod\" aws ssm start-session --target i-0de9c20373306d5b9 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imageprocessingpipeline-databaseinstanceaa8a5fde-stb8dillkmgj.cuxrrn5lqzle.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
+alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimageprocess-databaseinstanceaa8a5fde-9bn326rwc0c7.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
 alias plot='gnuplot plot.gnu'
 alias prp='poetry run pytest'
 alias pri='poetry run ipython'
+alias svinfo="poetry run svinfo --qa --port 5446" 
+alias svinfo-prod="AWS_PROFILE=prod poetry run svinfo --port 5446" 
 
 # Add brew paths
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -121,7 +126,7 @@ function config {
 }
 
 # AWS default profile
-export AWS_DEFAULT_PROFILE=qa
+export AWS_DEFAULT_PROFILE=default
 # Poetry install bin
 export PATH="/Users/jamiemcmillan/.local/bin:$PATH"
 
@@ -137,3 +142,6 @@ export GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR
 
 # Set FFMPEG EXE
 export IMAGEIO_FFMPEG_EXE=/opt/homebrew/bin/ffmpeg
+
+# Silence node.js warning
+export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=1

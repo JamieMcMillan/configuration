@@ -1,4 +1,4 @@
-#!/Users/jamiemcmillan/Library/Caches/pypoetry/virtualenvs/image-processing-7EkzBI9D-py3.12/bin/python
+#!/Users/jamiemcmillan/Library/Caches/pypoetry/virtualenvs/image-processing-7EkzBI9D-py3.10/bin/python
 from datetime import datetime
 from radiative_transfer_modelling.profile import atmospheric_profile_arco
 

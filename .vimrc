@@ -39,7 +39,7 @@ Plugin 'gerw/vim-latex-suite'
 Plugin 'scrooloose/nerdtree'
 Plugin 'joshdick/onedark.vim'
 Plugin 'aklt/plantuml-syntax'
-Plugin 'dense-analysis/ale'
+"Plugin 'dense-analysis/ale'
 Plugin 'davidhalter/jedi-vim'
 "Plugin 'instant-markdown/vim-instant-markdown'  " Turned off because I just
 "kept closing it...
@@ -83,7 +83,7 @@ set autowrite		" Automatically save before commands like :next and :make
 set hidden		" Hide buffers when they are abandoned
 set mouse=	" Disable mouse usage (all modes)
 set backspace=indent,eol,start
-set scrolloff=5
+set scrolloff=20
 
 colorscheme ron
 

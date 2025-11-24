@@ -9,7 +9,7 @@ function! CustomOpts() abort
   return result
 endfunction
 
-let g:ale_linters = {'python': ['black', 'bandit', 'mypy', 'ruff']}
+let g:ale_linters = {'python': ['bandit', 'mypy', 'ruff']}
 let g:ale_python_pylsp_executable = 'pyls'
 let g:ale_cursor_detail=1
 let g:ale_detail_to_floating_preview=1
@@ -25,9 +25,6 @@ let g:ale_warn_about_trailing_whitespace=0
 let g:ale_virtualtext_cursor = 'disabled'
 let g:ale_python_ruff_options='--ignore E501 --ignore I001'
 let g:ale_python_ruff_use_config='$HOME/.ruff.toml'
-let g:ale_python_bandit_options='-c $HOME/.bandit.yaml'
-"let g:ale_completion_enabled = 1
-"set omnifunc=ale#completion#OmniFunc
 
 set foldmethod=indent
 

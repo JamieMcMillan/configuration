@@ -132,18 +132,18 @@ printMarkdown()
   fi
 
   mkdir -p "/tmp/${inputFile}"
-  pandoc "${inputFile}" 		\
+  pandoc "${inputFile}" 			\
 	-o "/tmp/${inputFile%.md}".tex 	\
-	--from markdown 			\
-	--pdf-engine=xelatex		\
-	--listings					\
+	--from markdown 				\
+	--pdf-engine=xelatex			\
+	--syntax-highlighting=idiomatic	\
 	${templateCommand}
 
-  pandoc "${inputFile}" 		\
-	-o "${inputFile%.md}".pdf 	\
-	--from markdown 			\
-	--pdf-engine=xelatex		\
-	--listings					\
+  pandoc "${inputFile}" 			\
+	-o "${inputFile%.md}".pdf 		\
+	--from markdown 				\
+	--pdf-engine=xelatex			\
+	--syntax-highlighting=idiomatic	\
 	${templateCommand}
 }
 

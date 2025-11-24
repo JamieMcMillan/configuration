@@ -2,4 +2,4 @@
 # Uses slackdump from https://github.com/rusq/slackdump
 
 INPUT="$1"
-slackdump -f -r text -base ~/Documents/Slack_Archive -ft "{{.Name}}{{ if .ThreadTS}}-{{.ThreadTS}}{{end}}" "${INPUT}"
+slackdump export -y -files -o ~/Documents/Slack_Archive "${INPUT}"

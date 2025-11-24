@@ -101,16 +101,17 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cat='bat --theme=OneHalfDark'
-alias launchEC2="aws ssm start-session --profile default --target i-05864a83e260c5a4d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2223\"]}' --region eu-west-2"
-alias launchMODTRAN="aws ssm start-session --profile default --target i-0b5759edad60b1e9d --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
-alias launchQADatabase="AWS_PROFILE=\"default\" aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imageprocessingpipeline-databaseinstanceaa8a5fde-mc7mhgpczgaj.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
-alias launchProdDatabase="AWS_PROFILE=\"prod\" aws ssm start-session --target i-0de9c20373306d5b9 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imageprocessingpipeline-databaseinstanceaa8a5fde-stb8dillkmgj.cuxrrn5lqzle.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
-alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimageprocess-databaseinstanceaa8a5fde-9bn326rwc0c7.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
+alias launchEC2="aws ssm start-session --profile default --target i-0afa10aa244723df3 --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2223\"]}' --region eu-west-2"
+alias launchMODTRAN="aws ssm start-session --profile default --target i-0c3c3b5f8d5eb4e2e --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
+alias launchQADatabase="AWS_PROFILE=\"default\" aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imagerydatabaseproxy.proxy-cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
+alias launchProdDatabase="AWS_PROFILE=\"prod\" aws ssm start-session --target i-0de9c20373306d5b9 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imagerydatabaseproxy.proxy-cuxrrn5lqzle.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
+alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimagery-databaseinstanceaa8a5fde-wmyabwrpkyql.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
 alias plot='gnuplot plot.gnu'
 alias prp='poetry run pytest'
 alias pri='poetry run ipython'
 alias svinfo="poetry run svinfo --qa --port 5446" 
 alias svinfo-prod="AWS_PROFILE=prod poetry run svinfo --port 5446" 
+alias ruby="/Users/jamiemcmillan/.rbenv/versions/3.4.4/bin/ruby"
 
 # Add brew paths
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -145,3 +146,17 @@ export IMAGEIO_FFMPEG_EXE=/opt/homebrew/bin/ffmpeg
 
 # Silence node.js warning
 export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION=1
+
+# Installing pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+# Install conda
+export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+export PATH="/Users/jamiemcmillan/.pixi/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

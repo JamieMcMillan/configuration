@@ -1,0 +1,16 @@
+{
+  "promptSuggestionEnabled": false,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-if-unfocused.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

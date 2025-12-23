@@ -143,6 +143,13 @@ let g:syntastic_loc_list_height = 3
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 nnoremap <C-w>E :SyntasticCheck<CR>
 
+" Java-specific syntastic (uses javac)
+let g:syntastic_java_checkers = ['javac']
+let g:syntastic_java_javac_classpath = './target/classes:./target/test-classes'
+
+" }}}
+" Java {{{
+autocmd FileType java setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 " }}}
 " FZF {{{
 

@@ -1,0 +1,107 @@
+#!/bin/bash
+# Update the launchJMQADatabase alias after a fresh test deploy
+#
+# Usage:
+#   ./scripts/update_db_alias.sh                    # Uses default stack name
+#   ./scripts/update_db_alias.sh MyStackName        # Custom stack name
+#   ./scripts/update_db_alias.sh --dry-run          # Show what would be updated
+
+set -e
+
+STACK_NAME="${1:-JamieMcMillanImagery}"
+DRY_RUN=false
+LOCAL_PORT="${LOCAL_PORT:-5446}"
+ALIAS_NAME="launchJMQADatabase"
+
+if [[ "$1" == "--dry-run" ]]; then
+    DRY_RUN=true
+    STACK_NAME="${2:-JamieMcMillanImagery}"
+fi
+
+echo "Fetching resources from stack: $STACK_NAME"
+
+# Get the RDS instance identifier from CloudFormation
+RDS_INSTANCE=$(aws cloudformation describe-stack-resources \
+    --stack-name "$STACK_NAME" \
+    --query "StackResources[?ResourceType=='AWS::RDS::DBInstance'].PhysicalResourceId" \
+    --output text)
+
+if [[ -z "$RDS_INSTANCE" ]]; then
+    echo "Error: Could not find RDS instance in stack $STACK_NAME"
+    exit 1
+fi
+
+# Get the secret ARN
+SECRET_ARN=$(aws cloudformation describe-stack-resources \
+    --stack-name "$STACK_NAME" \
+    --query "StackResources[?ResourceType=='AWS::SecretsManager::Secret'].PhysicalResourceId" \
+    --output text)
+
+if [[ -z "$SECRET_ARN" ]]; then
+    echo "Error: Could not find Secret in stack $STACK_NAME"
+    exit 1
+fi
+
+# Get the RDS endpoint
+RDS_ENDPOINT=$(aws rds describe-db-instances \
+    --db-instance-identifier "$RDS_INSTANCE" \
+    --query "DBInstances[0].Endpoint.Address" \
+    --output text)
+
+if [[ -z "$RDS_ENDPOINT" ]]; then
+    echo "Error: Could not get RDS endpoint for $RDS_INSTANCE"
+    exit 1
+fi
+
+# Get the bastion instance ID (assumes tagged or named appropriately)
+BASTION_INSTANCE=$(aws ec2 describe-instances \
+    --filters "Name=tag:Name,Values=*Bastion*" "Name=instance-state-name,Values=running" \
+    --query "Reservations[0].Instances[0].InstanceId" \
+    --output text 2>/dev/null || echo "")
+
+if [[ -z "$BASTION_INSTANCE" || "$BASTION_INSTANCE" == "None" ]]; then
+    # Fallback to current alias bastion if we can't find it
+    BASTION_INSTANCE=$(grep "$ALIAS_NAME" ~/.zshrc | grep -oE 'i-[a-z0-9]+' | head -1)
+    echo "Warning: Could not find Bastion instance, using existing: $BASTION_INSTANCE"
+fi
+
+echo ""
+echo "Found:"
+echo "  RDS Instance:  $RDS_INSTANCE"
+echo "  RDS Endpoint:  $RDS_ENDPOINT"
+echo "  Secret ARN:    $SECRET_ARN"
+echo "  Bastion:       $BASTION_INSTANCE"
+echo "  Local Port:    $LOCAL_PORT"
+echo ""
+
+# Build the new alias
+NEW_ALIAS="alias $ALIAS_NAME=\"aws ssm start-session --target $BASTION_INSTANCE --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\\\"host\\\":[\\\"$RDS_ENDPOINT\\\"],\\\"portNumber\\\":[\\\"5432\\\"],\\\"localPortNumber\\\":[\\\"$LOCAL_PORT\\\"]}'\""
+
+echo "New alias:"
+echo "$NEW_ALIAS"
+echo ""
+
+# Also output the secret ARN for DatabaseSettings
+echo "For DatabaseSettings.from_secret_arn():"
+echo "  SECRET_ARN=$SECRET_ARN"
+echo ""
+
+if [[ "$DRY_RUN" == "true" ]]; then
+    echo "[Dry run - no changes made]"
+    exit 0
+fi
+
+# Update ~/.zshrc by removing old alias and appending new one
+TEMP_FILE=$(mktemp)
+grep -v "^alias $ALIAS_NAME=" ~/.zshrc > "$TEMP_FILE" || true
+echo "$NEW_ALIAS" >> "$TEMP_FILE"
+mv "$TEMP_FILE" ~/.zshrc
+echo "Updated $ALIAS_NAME in ~/.zshrc"
+
+echo ""
+echo "Run 'source ~/.zshrc' to reload, then '$ALIAS_NAME' to connect."
+echo ""
+echo "To use the database locally:"
+echo "  from satellite_data_models.database_client import DatabaseClient, DatabaseSettings"
+echo "  settings = DatabaseSettings.from_secret_arn('$SECRET_ARN').for_localhost_tunnel($LOCAL_PORT)"
+echo "  db = DatabaseClient(settings)"

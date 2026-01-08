@@ -105,7 +105,6 @@ alias launchEC2="aws ssm start-session --profile default --target i-0afa10aa2447
 alias launchMODTRAN="aws ssm start-session --profile default --target i-0c3c3b5f8d5eb4e2e --document-name AWS-StartPortForwardingSessionToRemoteHost  --parameters '{\"portNumber\":[\"22\"],\"localPortNumber\":[\"2222\"]}' --region eu-west-2"
 alias launchQADatabase="AWS_PROFILE=\"default\" aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imagerydatabaseproxy.proxy-cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
 alias launchProdDatabase="AWS_PROFILE=\"prod\" aws ssm start-session --target i-0de9c20373306d5b9 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"imagerydatabaseproxy.proxy-cuxrrn5lqzle.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
-alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimagery-databaseinstanceaa8a5fde-cwv1tb3etwab.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5445\"]}'"
 alias plot='gnuplot plot.gnu'
 alias prp='poetry run pytest'
 alias pri='poetry run ipython'
@@ -114,6 +113,7 @@ alias svinfo-prod="AWS_PROFILE=prod poetry run svinfo --port 5446"
 alias ruby="/Users/jamiemcmillan/.rbenv/versions/3.4.4/bin/ruby"
 alias python="/opt/homebrew/bin/python3.12"
 alias jc="mvn compile -q"
+alias boutique='mvn -q compile exec:java -Dexec.mainClass="evaluation.RunGames" -Dexec.args="game=BoutiqueCards nPlayers=2"'
 
 # Add brew paths
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -162,3 +162,4 @@ export PATH="/Users/jamiemcmillan/.pixi/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimagery-databaseinstanceaa8a5fde-g4fmkcmrvkkn.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5445\"]}'"

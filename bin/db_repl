@@ -1,0 +1,48 @@
+#!/Users/jamiemcmillan/Library/Caches/pypoetry/virtualenvs/image-processing-7EkzBI9D-py3.12/bin/python
+import argparse
+import re
+import subprocess
+
+from IPython import embed
+
+from satellite_data_models.database import DatabaseClient
+from satellite_data_models.settings import DatabaseSettings
+from satellite_data_models.models import *  # noqa: F403
+
+parser = argparse.ArgumentParser(description="Python REPL with database connection")
+parser.add_argument("--qa", action="store_true", help="Connect to QA database")
+parser.add_argument(
+    "--test-deploy", action="store_true", help="Connect to test deploy database"
+)
+args = parser.parse_args()
+
+if args.qa:
+    settings = DatabaseSettings.from_env_or_ssm_parameters().for_localhost_tunnel(5446)
+elif args.test_deploy:
+    result = subprocess.run(
+        ["update_db_alias", "--dry-run"],
+        capture_output=True,
+        text=True,
+    )
+    match = re.search(r"SECRET_ARN=(arn:aws:secretsmanager:[^\s]+)", result.stdout)
+    if not match:
+        raise RuntimeError("Could not find SECRET_ARN in update_db_alias output")
+    arn = match.group(1)
+    settings = DatabaseSettings.from_db_secret_arn(arn).for_localhost_tunnel(5446)
+else:
+    parser.print_help()
+    exit(1)
+
+print(f"Connecting to: {settings.database_dsn}")
+db = DatabaseClient.create(connection_string=settings.database_dsn).__enter__()
+
+banner = """
+Database REPL - `db` is your DatabaseClient
+
+Example queries:
+  pa = db.select_one(PaddleAcquisition, PaddleAcquisition.sstl_acquisition_id == 'SVP1000443CL')
+  bpm = db.select_latest(PaddleBadPixelMap)
+"""
+
+print(banner)
+embed(colors="Linux")

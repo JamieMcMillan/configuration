@@ -108,6 +108,7 @@ alias launchProdDatabase="AWS_PROFILE=\"prod\" aws ssm start-session --target i-
 alias plot='gnuplot plot.gnu'
 alias prp='poetry run pytest'
 alias pri='poetry run ipython'
+alias pri-db='db_repl'
 alias svinfo="poetry run svinfo --qa --port 5446" 
 alias svinfo-prod="AWS_PROFILE=prod poetry run svinfo --port 5446" 
 alias ruby="/Users/jamiemcmillan/.rbenv/versions/3.4.4/bin/ruby"
@@ -162,4 +163,4 @@ export PATH="/Users/jamiemcmillan/.pixi/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimagery-databaseinstanceaa8a5fde-g4fmkcmrvkkn.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5445\"]}'"
+alias launchJMQADatabase="aws ssm start-session --target i-0d9e1d81814e681fa --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{\"host\":[\"jamiemcmillanimagery-databaseinstanceaa8a5fde-g4fmkcmrvkkn.cbvsd0mwkfyb.eu-west-2.rds.amazonaws.com\"],\"portNumber\":[\"5432\"],\"localPortNumber\":[\"5446\"]}'"
